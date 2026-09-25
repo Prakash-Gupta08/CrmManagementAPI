@@ -24,7 +24,7 @@ namespace CrmManagementAPI.Model
         public string InvoiceStatus { get; set; } = "Draft";
         public string? DisputeNotes { get; set; }
         public string? Notes { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

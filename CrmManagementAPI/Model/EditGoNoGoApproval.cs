@@ -23,6 +23,6 @@ namespace CrmManagementAPI.Model
         public string? Decision { get; set; }
         public string? ApproverRemarks { get; set; }
         public string? Conditions { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -8,11 +8,11 @@ namespace CrmManagementAPI.Model
         public int TenderId { get; set; }
         public int? OwnerId { get; set; }
         public string ActivityType { get; set; } = string.Empty;
-        public DateTimeOffset ActivityDate { get; set; }
+        public DateTime ActivityDate { get; set; }
         public string? Outcome { get; set; }
         public string? NextAction { get; set; }
         public DateOnly? NextActionDate { get; set; }
         public string? Notes { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -52,7 +52,7 @@ namespace CrmManagementAPI.Data
         public bool Active { get; set; } = true;
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
     }
 }

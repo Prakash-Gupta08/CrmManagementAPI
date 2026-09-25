@@ -113,13 +113,13 @@ namespace CrmManagementAPI.Data
         public int? ConvertedCustomerId { get; set; }
 
         [Column("converted_at")]
-        public DateTimeOffset? ConvertedAt { get; set; }
+        public DateTime? ConvertedAt { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
 }

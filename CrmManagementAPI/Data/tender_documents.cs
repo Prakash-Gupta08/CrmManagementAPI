@@ -30,7 +30,7 @@ namespace CrmManagementAPI.Data
         public int? UploadedById { get; set; }
 
         [Column("uploaded_at")]
-        public DateTimeOffset UploadedAt { get; set; }
+        public DateTime UploadedAt { get; set; }
 
         [Column("notes")]
         public string? Notes { get; set; }

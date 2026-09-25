@@ -17,11 +17,11 @@ namespace CrmManagementAPI.Model
         public string BodyRendered { get; set; } = string.Empty;
         public string Status { get; set; } = "Queued";
         public int? SentById { get; set; }
-        public DateTimeOffset? ScheduledAt { get; set; }
-        public DateTimeOffset? SentAt { get; set; }
+        public DateTime? ScheduledAt { get; set; }
+        public DateTime? SentAt { get; set; }
         public string? DeliveryRef { get; set; }
         public string? ErrorMessage { get; set; }
         public string? Notes { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

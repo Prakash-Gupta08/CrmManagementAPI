@@ -30,7 +30,7 @@ namespace CrmManagementAPI.Data
         public string? ConversionNotes { get; set; }
 
         [Column("converted_at")]
-        public DateTimeOffset ConvertedAt { get; set; }
+        public DateTime ConvertedAt { get; set; }
     }
 
 }

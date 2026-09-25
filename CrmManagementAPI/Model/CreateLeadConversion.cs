@@ -9,6 +9,6 @@ namespace CrmManagementAPI.Model
         public int CustomerId { get; set; }
         public int ConvertedById { get; set; }
         public string? ConversionNotes { get; set; }
-        public DateTimeOffset ConvertedAt { get; set; }
+        public DateTime ConvertedAt { get; set; }
     }
 }

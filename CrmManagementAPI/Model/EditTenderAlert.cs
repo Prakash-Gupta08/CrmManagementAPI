@@ -10,6 +10,6 @@ namespace CrmManagementAPI.Model
         public DateOnly AlertDate { get; set; }
         public string Status { get; set; } = "Open";
         public string? Notes { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace CrmManagementAPI.Data
         public int? RecordedById { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
     }
 }

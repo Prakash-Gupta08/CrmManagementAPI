@@ -37,8 +37,8 @@ namespace CrmManagementAPI.Model
         public int? OwnerId { get; set; }
         public int? ConvertedTenderId { get; set; }
         public int? ConvertedCustomerId { get; set; }
-        public DateTimeOffset? ConvertedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime? ConvertedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

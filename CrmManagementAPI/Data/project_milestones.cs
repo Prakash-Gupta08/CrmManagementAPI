@@ -50,6 +50,6 @@ namespace CrmManagementAPI.Data
         public int SortOrder { get; set; } = 0;
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -17,6 +17,6 @@ namespace CrmManagementAPI.Model
         public bool Billable { get; set; } = false;
         public bool Invoiced { get; set; } = false;
         public int SortOrder { get; set; } = 0;
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

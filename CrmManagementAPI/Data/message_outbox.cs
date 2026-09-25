@@ -53,10 +53,10 @@ namespace CrmManagementAPI.Data
         public int? SentById { get; set; }
 
         [Column("scheduled_at")]
-        public DateTimeOffset? ScheduledAt { get; set; }
+        public DateTime? ScheduledAt { get; set; }
 
         [Column("sent_at")]
-        public DateTimeOffset? SentAt { get; set; }
+        public DateTime? SentAt { get; set; }
 
         [Column("delivery_ref")]
         public string? DeliveryRef { get; set; }
@@ -68,6 +68,6 @@ namespace CrmManagementAPI.Data
         public string? Notes { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

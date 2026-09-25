@@ -17,6 +17,6 @@ namespace CrmManagementAPI.Model
         public string BodyText { get; set; } = string.Empty;
         public string? Variables { get; set; }
         public bool Active { get; set; } = true;
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

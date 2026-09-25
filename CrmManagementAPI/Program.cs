@@ -1,11 +1,7 @@
 using CrmManagementAPI.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using CrmManagementAPI.Interfaces;
-using CrmManagementAPI.AppDbContext;
 using CrmManagementAPI.Services;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -15,6 +15,6 @@ namespace CrmManagementAPI.Model
         public string? BankName { get; set; }
         public string? Notes { get; set; }
         public int? RecordedById { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace CrmManagementAPI.Services
             _response = new APIResponse();
 
         }
-
         public async Task<APIResponse> GetDashboardData()
         {
             var userData = await _context.users.CountAsync(s => s.Active == true);

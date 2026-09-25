@@ -13,7 +13,7 @@ namespace CrmManagementAPI.Model
         public DateOnly? PublicationDate { get; set; }
         public DateOnly? PreBidMeetingDate { get; set; }
         public DateOnly? QuerySubmissionDeadline { get; set; }
-        public DateTimeOffset? BidSubmissionDeadline { get; set; }
+        public DateTime? BidSubmissionDeadline { get; set; }
         public DateOnly? TechnicalOpeningDate { get; set; }
         public DateOnly? FinancialOpeningDate { get; set; }
         public decimal? EstimatedTenderValueInr { get; set; }
@@ -38,7 +38,7 @@ namespace CrmManagementAPI.Model
         public string? L1Bidder { get; set; }
         public decimal? L1ValueInr { get; set; }
         public string? OutcomeNotes { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

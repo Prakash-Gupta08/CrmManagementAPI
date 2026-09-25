@@ -22,7 +22,7 @@ namespace CrmManagementAPI.Data
         public string ActivityType { get; set; } = string.Empty;
 
         [Column("activity_date")]
-        public DateTimeOffset ActivityDate { get; set; }
+        public DateTime ActivityDate { get; set; }
 
         [Column("from_stage")]
         public string? FromStage { get; set; }
@@ -40,7 +40,7 @@ namespace CrmManagementAPI.Data
         public DateOnly? NextActionDate { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 }

@@ -38,7 +38,7 @@ namespace CrmManagementAPI.Data
         public DateOnly? QuerySubmissionDeadline { get; set; }
 
         [Column("bid_submission_deadline")]
-        public DateTimeOffset? BidSubmissionDeadline { get; set; }
+        public DateTime? BidSubmissionDeadline { get; set; }
 
         [Column("technical_opening_date")]
         public DateOnly? TechnicalOpeningDate { get; set; }
@@ -113,10 +113,10 @@ namespace CrmManagementAPI.Data
         public string? OutcomeNotes { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Column("updated_at")]
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
 }

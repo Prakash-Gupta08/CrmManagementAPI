@@ -30,7 +30,7 @@ namespace CrmManagementAPI.Data
         public string? Notes { get; set; }
 
         [Column("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 }
