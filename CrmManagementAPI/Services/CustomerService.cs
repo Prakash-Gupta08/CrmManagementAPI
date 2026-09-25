@@ -1,4 +1,5 @@
 ﻿using CrmManagementAPI.AppDbContext;
+using CrmManagementAPI.Common;
 using CrmManagementAPI.CommonResponse;
 using CrmManagementAPI.Data;
 using CrmManagementAPI.Interfaces;
@@ -219,5 +220,59 @@ namespace CrmManagementAPI.Services
         
 
         }
+
+        public async Task<APIResponse> GetCategoryDropdown()
+        {
+            var data = CategoryConstants.Categories
+                .Select(x => new
+                {
+                    Value = x,
+                    Label = x
+                })
+                .ToList();
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Category dropdown data found successfully.";
+            _response.Result = data;
+
+            return _response;
+        }
+        public async Task<APIResponse> GetProjectRiskDropdown()
+        {
+            var data = CategoryConstants.Project_risk
+                .Select(x => new
+                {
+                    Value = x,
+                    Label = x
+                })
+                .ToList();
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Project risk dropdown data found successfully.";
+            _response.Result = data;
+
+            return _response;
+        }
+        public async Task<APIResponse> GetDecisionDropdown()
+        {
+            var data = CategoryConstants.Decision
+                .Select(x => new
+                {
+                    Value = x,
+                    Label = x
+                })
+                .ToList();
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Decision dropdown data found successfully.";
+            _response.Result = data;
+
+            return _response;
+        }
+
+
     }
 }

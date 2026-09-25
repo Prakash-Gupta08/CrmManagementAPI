@@ -20,7 +20,7 @@ namespace CrmManagementAPI.Services
 
     }
 
-        public async Task<APIResponse> GetAllUser(string employeeID, string? search = null, int pageNumber = 1, int pageSize = 10)
+        public async Task<APIResponse> GetAllUser(string? employeeID, string? search = null, int pageNumber = 1, int pageSize = 10)
         {
             var query = _context.users.Where(x => x.Active);
 

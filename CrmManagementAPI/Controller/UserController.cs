@@ -20,7 +20,7 @@ namespace CrmManagementAPI.Controller
         }
         [HttpGet("GetAllUsers")]
 
-        public async Task<ActionResult> GetAllUser(string employeeID, string? search = null, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult> GetAllUser(string? employeeID, string? search = null, int pageNumber = 1, int pageSize = 10)
         {
             var data = await _context.GetAllUser(employeeID, search, pageNumber, pageSize);
 

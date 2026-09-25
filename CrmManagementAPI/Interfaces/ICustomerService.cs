@@ -10,6 +10,9 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateCustomer(CreateCustomer dto); 
         Task<APIResponse> UpdateCustomer(EditCustomer req);
         Task<APIResponse> DeleteCustomer(int id);
+        Task<APIResponse> GetCategoryDropdown();
+        Task<APIResponse> GetProjectRiskDropdown();
+        Task<APIResponse> GetDecisionDropdown();
 
 
     }

@@ -69,6 +69,28 @@ namespace CrmManagementAPI.Controller
 
         }
 
+        [HttpGet("GetCategoryDropdownList")]
+
+        public async Task<ActionResult> GetCategoryDropdown()
+        {
+            var data = await _context.GetCategoryDropdown();
+            return Ok(data);
+        }
+
+
+        [HttpGet("GetProjectRiskDropdownList")]
+        public async Task<ActionResult> GetProjectRiskDropdown()
+        {
+            var data = await _context.GetProjectRiskDropdown();
+            return Ok(data);
+        }
+        [HttpGet("GetDecisionDropdownList")]
+        public async Task<ActionResult> GetDecisionDropdown()
+        {
+            var data = await _context.GetDecisionDropdown();
+            return Ok(data);
+        }
+
 
     }
 }
