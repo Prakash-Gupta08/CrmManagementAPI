@@ -23,6 +23,7 @@ builder.Services.AddDbContext<db_context>(options =>
 
 // Dependency Injection
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 
