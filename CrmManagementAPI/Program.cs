@@ -38,7 +38,8 @@ builder.Services.AddScoped<IMessageTemplateService, MessageTemplateService>();
 builder.Services.AddScoped<IMessageOutboxService, MessageOutboxService>();
 builder.Services.AddScoped<IEscalationPolicyService, EscalationPolicyService>();
 builder.Services.AddScoped<ILeadActivityService, LeadActivityService>();
-builder.Services.AddScoped<ILeadConversionService, LeadConversionService>();
+builder.Services.AddScoped<ILeadConversionService, LeadConversionService>(); 
+builder.Services.AddScoped<IOverviewService, OverviewService>();
 
 var app = builder.Build();
 
