@@ -1,4 +1,5 @@
 using CrmManagementAPI.AppDbContext;
+using CrmManagementAPI.Common;
 using CrmManagementAPI.CommonResponse;
 using CrmManagementAPI.Data;
 using CrmManagementAPI.Interfaces;
@@ -147,6 +148,24 @@ namespace CrmManagementAPI.Services
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             _response.ActionResponse = "LeadActivity deleted successfully.";
+            return _response;
+        }
+        
+        public async Task<APIResponse> GetLeadActivityDropdown()
+        {
+            var data = CategoryConstants.Activity_type
+                .Select(x => new
+                { 
+                    Value = x,
+                    Label = x
+                })
+                .ToList();
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Activity type dropdown data found successfully.";
+            _response.Result = data;
+
             return _response;
         }
     }

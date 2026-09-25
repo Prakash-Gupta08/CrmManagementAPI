@@ -51,5 +51,12 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteInvoice(id);
             return Ok(data);
         }
+
+        [HttpGet("GetInvoiceStatusDropdown")]
+        public async Task<ActionResult> GetInvoiceStatusDropdown()
+        {
+            var data = await _context.GetInvoiceStatusDropdown();
+            return Ok(data);
+        }
     }
 }

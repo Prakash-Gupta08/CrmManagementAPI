@@ -10,5 +10,6 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateInvoice(CreateInvoice dto);
         Task<APIResponse> UpdateInvoice(EditInvoice req);
         Task<APIResponse> DeleteInvoice(int id);
+        Task<APIResponse> GetInvoiceStatusDropdown();
     }
 }

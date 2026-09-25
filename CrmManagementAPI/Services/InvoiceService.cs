@@ -1,4 +1,5 @@
 using CrmManagementAPI.AppDbContext;
+using CrmManagementAPI.Common;
 using CrmManagementAPI.CommonResponse;
 using CrmManagementAPI.Data;
 using CrmManagementAPI.Interfaces;
@@ -180,6 +181,24 @@ namespace CrmManagementAPI.Services
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             _response.ActionResponse = "Invoice deleted successfully.";
+            return _response;
+        }
+
+        public async Task<APIResponse> GetInvoiceStatusDropdown()
+        {
+            var data = CategoryConstants.Invoice_status
+                .Select(x => new
+                {
+                    Value = x,
+                    Label = x
+                })
+                .ToList();
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Decision dropdown data found successfully.";
+            _response.Result = data;
+
             return _response;
         }
     }

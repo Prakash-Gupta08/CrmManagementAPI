@@ -51,5 +51,12 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteLeadActivity(id);
             return Ok(data);
         }
+
+        [HttpGet("GetLeadActivityDropdown")]
+        public async Task<ActionResult> GetLeadActivityDropdown()
+        {
+            var data = await _context.GetLeadActivityDropdown();
+            return Ok(data); 
+        }
     }
 }

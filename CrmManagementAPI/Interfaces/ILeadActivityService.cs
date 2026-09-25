@@ -10,5 +10,6 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateLeadActivity(CreateLeadActivity dto);
         Task<APIResponse> UpdateLeadActivity(EditLeadActivity req);
         Task<APIResponse> DeleteLeadActivity(int id);
+        Task<APIResponse> GetLeadActivityDropdown();
     }
 }
