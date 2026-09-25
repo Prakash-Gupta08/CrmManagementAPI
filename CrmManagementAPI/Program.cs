@@ -24,6 +24,21 @@ builder.Services.AddDbContext<db_context>(options =>
 // Dependency Injection
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ILeadService, LeadService>();
+builder.Services.AddScoped<ITenderService, TenderService>();
+builder.Services.AddScoped<ITenderDocumentService, TenderDocumentService>();
+builder.Services.AddScoped<ITenderAlertService, TenderAlertService>();
+builder.Services.AddScoped<ITenderActivityService, TenderActivityService>();
+builder.Services.AddScoped<IGoNoGoApprovalService, GoNoGoApprovalService>();
+builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+builder.Services.AddScoped<IProjectMilestoneService, ProjectMilestoneService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IMessageTemplateService, MessageTemplateService>();
+builder.Services.AddScoped<IMessageOutboxService, MessageOutboxService>();
+builder.Services.AddScoped<IEscalationPolicyService, EscalationPolicyService>();
+builder.Services.AddScoped<ILeadActivityService, LeadActivityService>();
+builder.Services.AddScoped<ILeadConversionService, LeadConversionService>();
 
 var app = builder.Build();
 
