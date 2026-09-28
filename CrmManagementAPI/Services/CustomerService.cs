@@ -273,6 +273,115 @@ namespace CrmManagementAPI.Services
             return _response;
         }
 
+        public async Task<APIResponse> GetAllCustomerList(string? search = null, string? filterField = null, string? filterValue = null, int pageNumber = 1, int pageSize = 10)
+        {
+            var query = _context.customers.Where(x => x.IsActive == true);
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+
+                query = query.Where(x =>
+                    x.OrganizationName.ToLower().Contains(search) ||
+                    (x.MinistryParent != null && x.MinistryParent.ToLower().Contains(search)) ||
+                    (x.Category != null && x.Category.ToLower().Contains(search)) ||
+                    (x.State != null && x.State.ToLower().Contains(search)) ||
+                    (x.DistrictCity != null && x.DistrictCity.ToLower().Contains(search))
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(filterField) && !string.IsNullOrWhiteSpace(filterValue))
+            {
+                filterValue = filterValue.ToLower();
+
+                switch (filterField.ToLower())
+                {
+                    case "organizationName":
+                        query = query.Where(x =>
+                            x.OrganizationName.ToLower().Contains(filterValue));
+                        break;
+
+                    case "ministryParent":
+                        query = query.Where(x =>
+                            x.MinistryParent != null &&
+                            x.MinistryParent.ToLower().Contains(filterValue));
+                        break;
+
+                    case "category":
+                        query = query.Where(x =>
+                            x.Category != null &&
+                            x.Category.ToLower().Contains(filterValue));
+                        break;
+
+                    case "state":
+                        query = query.Where(x =>
+                            x.State != null &&
+                            x.State.ToLower().Contains(filterValue));
+                        break;
+
+                    case "districtCity":
+                        query = query.Where(x =>
+                            x.DistrictCity != null &&
+                            x.DistrictCity.ToLower().Contains(filterValue));
+                        break;
+
+                    case "accountOwner":
+                        query = query.Where(x =>
+                            x.AccountOwner != null &&
+                            x.AccountOwner.ToLower().Contains(filterValue));
+                        break;
+
+                    case "gemSellerId":
+                        query = query.Where(x =>
+                            x.GemSellerId != null &&
+                            x.GemSellerId.ToLower().Contains(filterValue));
+                        break;
+
+                    case "gstin":
+                        query = query.Where(x =>
+                            x.Gstin != null &&
+                            x.Gstin.ToLower().Contains(filterValue));
+                        break;
+
+                    default:
+                        _response.IsSuccess = false;
+                        _response.StatusCode = HttpStatusCode.BadRequest;
+                        _response.ActionResponse = "Invalid filter field.";
+                        return _response;
+                }
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var data = await query.OrderBy(x => x.OrganizationName)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            if (!data.Any())
+            {
+                _response.IsSuccess = false;
+                _response.ActionResponse = "Data not found.";
+                _response.StatusCode = HttpStatusCode.NotFound;
+                return _response;
+            }
+
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            _response.ActionResponse = "Data found successfully.";
+
+            _response.Result = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+                Data = data
+            };
+
+            return _response;
+        }
+
 
     }
 }

@@ -20,7 +20,7 @@ namespace CrmManagementAPI.Controller
         [HttpGet("GetAllUsers")]
         public async Task<ActionResult> GetAllCustomer(string? search = null, int pageNumber = 1, int pageSize = 10)
         {
-            var data = await _context.GetAllCustomer( search, pageNumber, pageSize);
+            var data = await _context.GetAllCustomer(search, pageNumber, pageSize);
 
             return Ok(data);
 
@@ -30,7 +30,7 @@ namespace CrmManagementAPI.Controller
         public async Task<ActionResult> GetCustomerById(int id)
         {
             var data = await _context.GetCustomerById(id);
-            return Ok(data); 
+            return Ok(data);
         }
 
         [HttpPost("CreateCustomer")]
@@ -61,7 +61,7 @@ namespace CrmManagementAPI.Controller
             return Ok(data);
         }
 
-        [HttpDelete("{id}")] 
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCustomer(int id)
         {
             var data = await _context.DeleteCustomer(id);
@@ -90,6 +90,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.GetDecisionDropdown();
             return Ok(data);
         }
+        [HttpGet("GetAllCustomerList")]
+        public async Task<ActionResult> GetAllCustomerList(string? search = null, string? filterField = null, string? filterValue = null, int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _context.GetAllCustomerList();
+            return Ok(data);
+        }
+    
 
 
     }
