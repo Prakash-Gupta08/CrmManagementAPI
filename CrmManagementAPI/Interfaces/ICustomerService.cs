@@ -13,21 +13,8 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> GetCategoryDropdown();
         Task<APIResponse> GetProjectRiskDropdown();
         Task<APIResponse> GetDecisionDropdown();
-        //     Task<APIResponse> GetAllCustomerList(
-        //string? search = null,
-        //string? filterField = null,
-        //string? filterValue = null,
-        //int pageNumber = 1,
-        //int pageSize = 10);
-
-        Task<APIResponse> GetAllCustomerList(
-             string? search,
-             string? filterField,
-             string? filterValue,
-             string? sortField,
-             string? sortOrder = "asc",
-             int pageNumber = 1,
-             int pageSize = 10);
+        Task<APIResponse> GetAllCustomerList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10);
 
 
 
