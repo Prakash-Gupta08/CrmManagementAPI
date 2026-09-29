@@ -273,87 +273,545 @@ namespace CrmManagementAPI.Services
             return _response;
         }
 
-        public async Task<APIResponse> GetAllCustomerList(string? search = null, string? filterField = null, string? filterValue = null, int pageNumber = 1, int pageSize = 10)
+
+        /*   public async Task<APIResponse> GetAllCustomerList(
+       string? search = null,
+       string? filterField = null,
+       string? filterValue = null,
+       int pageNumber = 1,
+       int pageSize = 10)
+           {
+               var query = _context.customers
+                   .Where(x => x.IsActive == true);
+
+               // Search
+               if (!string.IsNullOrWhiteSpace(search))
+               {
+                   search = search.Trim().ToLower();
+
+                   query = query.Where(x =>
+                       x.OrganizationName.ToLower().Contains(search) ||
+                       (x.MinistryParent != null && x.MinistryParent.ToLower().Contains(search)) ||
+                       (x.Category != null && x.Category.ToLower().Contains(search)) ||
+                       (x.State != null && x.State.ToLower().Contains(search)) ||
+                       (x.DistrictCity != null && x.DistrictCity.ToLower().Contains(search))
+                   );
+               }
+
+               // Filter
+               if (!string.IsNullOrWhiteSpace(filterField) &&
+                   !string.IsNullOrWhiteSpace(filterValue))
+               {
+                   filterField = filterField.Trim().ToLower();
+                   filterValue = filterValue.Trim().ToLower();
+
+                   switch (filterField)
+                   {
+                       case "organizationname":
+
+                           query = query.Where(x =>
+                               x.OrganizationName.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "ministryparent":
+
+                           query = query.Where(x =>
+                               x.MinistryParent != null &&
+                               x.MinistryParent.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "category":
+
+                           query = query.Where(x =>
+                               x.Category != null &&
+                               x.Category.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "state":
+
+                           query = query.Where(x =>
+                               x.State != null &&
+                               x.State.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "districtcity":
+
+                           query = query.Where(x =>
+                               x.DistrictCity != null &&
+                               x.DistrictCity.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "accountowner":
+
+                           query = query.Where(x =>
+                               x.AccountOwner != null &&
+                               x.AccountOwner.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "gemsellerid":
+
+                           query = query.Where(x =>
+                               x.GemSellerId != null &&
+                               x.GemSellerId.ToLower().Contains(filterValue));
+
+                           break;
+
+                       case "gstin":
+
+                           query = query.Where(x =>
+                               x.Gstin != null &&
+                               x.Gstin.ToLower().Contains(filterValue));
+
+                           break;
+
+                       default:
+
+                           _response.IsSuccess = false;
+                           _response.StatusCode = HttpStatusCode.BadRequest;
+                           _response.ActionResponse =
+                               $"Invalid filter field: {filterField}";
+
+                           return _response;
+                   }
+               }
+
+               var totalCount = await query.CountAsync();
+
+               var data = await query
+                   .OrderBy(x => x.Id)
+                   .Skip((pageNumber - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToListAsync();
+
+               if (!data.Any())
+               {
+                   _response.IsSuccess = false;
+                   _response.StatusCode = HttpStatusCode.NotFound;
+                   _response.ActionResponse = "Data not found.";
+                   return _response;
+               }
+
+               _response.IsSuccess = true;
+               _response.StatusCode = HttpStatusCode.OK;
+               _response.ActionResponse = "Data found successfully.";
+
+               _response.Result = new
+               {
+                   PageNumber = pageNumber,
+                   PageSize = pageSize,
+                   TotalCount = totalCount,
+                   TotalPages = (int)Math.Ceiling(
+                       (double)totalCount / pageSize),
+                   Data = data
+               };
+
+               return _response;
+           }*/
+
+        public async Task<APIResponse> GetAllCustomerList(string? search, string? filterField, string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10)
         {
             var query = _context.customers.Where(x => x.IsActive == true);
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                search = search.ToLower();
+                search = search.Trim().ToLower();
 
-                query = query.Where(x =>
-                    x.OrganizationName.ToLower().Contains(search) ||
+                query = query.Where(x => x.OrganizationName.ToLower().Contains(search) ||
+
                     (x.MinistryParent != null && x.MinistryParent.ToLower().Contains(search)) ||
+
                     (x.Category != null && x.Category.ToLower().Contains(search)) ||
+
                     (x.State != null && x.State.ToLower().Contains(search)) ||
-                    (x.DistrictCity != null && x.DistrictCity.ToLower().Contains(search))
+
+                    (x.DistrictCity != null && x.DistrictCity.ToLower().Contains(search)) ||
+
+                    (x.OfficeAddress != null && x.OfficeAddress.ToLower().Contains(search)) ||
+
+                    (x.Website != null && x.Website.ToLower().Contains(search)) ||
+
+                    (x.GemSellerId != null && x.GemSellerId.ToLower().Contains(search)) ||
+
+                    (x.Gstin != null && x.Gstin.ToLower().Contains(search)) ||
+
+                    (x.AccountOwner != null && x.AccountOwner.ToLower().Contains(search)) ||
+
+                    (x.KeyContactName != null && x.KeyContactName.ToLower().Contains(search)) ||
+
+                    (x.KeyContactDesignation != null && x.KeyContactDesignation.ToLower().Contains(search)) ||
+
+                    (x.KeyContactEmail != null && x.KeyContactEmail.ToLower().Contains(search)) ||
+
+                    (x.KeyContactMobile != null && x.KeyContactMobile.ToLower().Contains(search)) ||
+
+                    (x.Notes != null && x.Notes.ToLower().Contains(search))
                 );
             }
 
             if (!string.IsNullOrWhiteSpace(filterField) && !string.IsNullOrWhiteSpace(filterValue))
             {
-                filterValue = filterValue.ToLower();
+                filterField = filterField.Trim().ToLower();
+                filterValue = filterValue.Trim().ToLower();
 
-                switch (filterField.ToLower())
+                switch (filterField)
                 {
-                    case "organizationName":
-                        query = query.Where(x =>
-                            x.OrganizationName.ToLower().Contains(filterValue));
+                    case "id":
+                        if (int.TryParse(filterValue, out int id))
+                        {
+                            query = query.Where(x => x.Id == id);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid ID value.";
+
+                            return _response;
+                        }
                         break;
 
-                    case "ministryParent":
+                    case "organizationname":
+
+                        query = query.Where(x =>
+                            x.OrganizationName.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Ministry Parent
+                    case "ministryparent":
+
                         query = query.Where(x =>
                             x.MinistryParent != null &&
-                            x.MinistryParent.ToLower().Contains(filterValue));
+                            x.MinistryParent.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
+
+                    // Category
                     case "category":
+
                         query = query.Where(x =>
                             x.Category != null &&
-                            x.Category.ToLower().Contains(filterValue));
+                            x.Category.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
+
+                    // State
                     case "state":
+
                         query = query.Where(x =>
                             x.State != null &&
-                            x.State.ToLower().Contains(filterValue));
+                            x.State.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
-                    case "districtCity":
+
+                    // District / City
+                    case "districtcity":
+
                         query = query.Where(x =>
                             x.DistrictCity != null &&
-                            x.DistrictCity.ToLower().Contains(filterValue));
+                            x.DistrictCity.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
-                    case "accountOwner":
+
+                    // Office Address
+                    case "officeaddress":
+
                         query = query.Where(x =>
-                            x.AccountOwner != null &&
-                            x.AccountOwner.ToLower().Contains(filterValue));
+                            x.OfficeAddress != null &&
+                            x.OfficeAddress.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
-                    case "gemSellerId":
+
+                    // Website
+                    case "website":
+
+                        query = query.Where(x =>
+                            x.Website != null &&
+                            x.Website.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // GeM Seller ID
+                    case "gemsellerid":
+
                         query = query.Where(x =>
                             x.GemSellerId != null &&
-                            x.GemSellerId.ToLower().Contains(filterValue));
+                            x.GemSellerId.ToLower()
+                                .Contains(filterValue));
+
                         break;
 
+
+                    // GSTIN
                     case "gstin":
+
                         query = query.Where(x =>
                             x.Gstin != null &&
-                            x.Gstin.ToLower().Contains(filterValue));
+                            x.Gstin.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Account Owner
+                    case "accountowner":
+
+                        query = query.Where(x =>
+                            x.AccountOwner != null &&
+                            x.AccountOwner.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Key Contact Name
+                    case "keycontactname":
+
+                        query = query.Where(x =>
+                            x.KeyContactName != null &&
+                            x.KeyContactName.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Key Contact Designation
+                    case "keycontactdesignation":
+
+                        query = query.Where(x =>
+                            x.KeyContactDesignation != null &&
+                            x.KeyContactDesignation.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Key Contact Email
+                    case "keycontactemail":
+
+                        query = query.Where(x =>
+                            x.KeyContactEmail != null &&
+                            x.KeyContactEmail.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Key Contact Mobile
+                    case "keycontactmobile":
+
+                        query = query.Where(x =>
+                            x.KeyContactMobile != null &&
+                            x.KeyContactMobile.ToLower()
+                                .Contains(filterValue));
+
+                        break;
+
+
+                    // Notes
+                    case "notes":
+                        query = query.Where(x => x.Notes != null && x.Notes.ToLower().Contains(filterValue));
+                        break;
+
+                    case "createdat":
+                        if (DateTime.TryParse(filterValue, out DateTime createdAt))
+                        {
+                            query = query.Where(x => x.CreatedAt.Date == createdAt.Date);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = HttpStatusCode.BadRequest;
+                            _response.ActionResponse ="Invalid CreatedAt date.";
+
+                            return _response;
+                        }
+
+                        break;
+
+                    case "updatedat":
+                        if (DateTime.TryParse(filterValue, out DateTime updatedAt))
+                        {
+                            query = query.Where(x => x.UpdatedAt.Date == updatedAt.Date);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid UpdatedAt date.";
+
+                            return _response;
+                        }
+
+                        break;
+
+                    case "isactive":
+                        if (bool.TryParse(filterValue, out bool isActive))
+                        {
+                            query = query.Where(x => x.IsActive == isActive);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid IsActive value. Use true or false.";
+
+                            return _response;
+                        }
+
+                        break;
+
+                    default:
+
+                        _response.IsSuccess = false;
+                        _response.StatusCode = HttpStatusCode.BadRequest;
+                        _response.ActionResponse = $"Invalid filter field: {filterField}";
+
+                        return _response;
+                }
+            }
+            sortField = sortField?.Trim().ToLower();
+            sortOrder = sortOrder?.Trim().ToLower();
+
+            if (!string.IsNullOrWhiteSpace(sortField))
+            {
+                bool descending = sortOrder == "desc";
+
+                switch (sortField)
+                {
+                    case "id":
+                        query = descending ? query.OrderByDescending(x => x.Id): query.OrderBy(x => x.Id);
+                        break;
+
+
+                    case "organizationname":
+                        query = descending ? query.OrderByDescending(x => x.OrganizationName) : query.OrderBy(x => x.OrganizationName);
+                        break;
+
+
+                    case "ministryparent":
+                        query = descending ? query.OrderByDescending(x => x.MinistryParent) : query.OrderBy(x => x.MinistryParent);
+                        break;
+
+
+                    case "category":
+                        query = descending ? query.OrderByDescending(x => x.Category) : query.OrderBy(x => x.Category);
+                        break;
+
+
+                    case "state":
+                        query = descending ? query.OrderByDescending(x => x.State): query.OrderBy(x => x.State);
+                        break;
+
+
+                    case "districtcity":
+                        query = descending ? query.OrderByDescending(x => x.DistrictCity) : query.OrderBy(x => x.DistrictCity);
+                        break;
+
+
+                    case "officeaddress":
+                        query = descending ? query.OrderByDescending(x => x.OfficeAddress) : query.OrderBy(x => x.OfficeAddress);
+                        break;
+
+
+                    case "website":
+                        query = descending ? query.OrderByDescending(x => x.Website): query.OrderBy(x => x.Website);
+                        break;
+
+
+                    case "gemsellerid":
+                        query = descending? query.OrderByDescending(x => x.GemSellerId): query.OrderBy(x => x.GemSellerId);
+                        break;
+
+
+                    case "gstin":
+                        query = descending ? query.OrderByDescending(x => x.Gstin) : query.OrderBy(x => x.Gstin);
+                        break;
+
+
+                    case "accountowner":
+                        query = descending ? query.OrderByDescending(x => x.AccountOwner) : query.OrderBy(x => x.AccountOwner);
+                        break;
+
+
+                    case "keycontactname":
+                        query = descending ? query.OrderByDescending(x => x.KeyContactName) : query.OrderBy(x => x.KeyContactName);
+                        break;
+
+
+                    case "keycontactdesignation":
+                        query = descending? query.OrderByDescending(x => x.KeyContactDesignation): query.OrderBy(x => x.KeyContactDesignation);
+                        break;
+
+
+                    case "keycontactemail":
+                        query = descending ? query.OrderByDescending(x => x.KeyContactEmail) : query.OrderBy(x => x.KeyContactEmail);
+                        break;
+
+
+                    case "keycontactmobile":
+                        query = descending ? query.OrderByDescending(x => x.KeyContactMobile) : query.OrderBy(x => x.KeyContactMobile);
+                        break;
+
+
+                    case "notes":
+                        query = descending ? query.OrderByDescending(x => x.Notes) : query.OrderBy(x => x.Notes);
+                        break;
+
+
+                    case "createdat":
+                        query = descending? query.OrderByDescending(x => x.CreatedAt): query.OrderBy(x => x.CreatedAt);
+                        break;
+
+
+                    case "updatedat":
+                        query = descending ? query.OrderByDescending(x => x.UpdatedAt) : query.OrderBy(x => x.UpdatedAt);
+                        break;
+
+
+                    case "isactive":
+                        query = descending ? query.OrderByDescending(x => x.IsActive): query.OrderBy(x => x.IsActive);
                         break;
 
                     default:
                         _response.IsSuccess = false;
                         _response.StatusCode = HttpStatusCode.BadRequest;
-                        _response.ActionResponse = "Invalid filter field.";
+                        _response.ActionResponse = $"Invalid sort field: {sortField}";
+
                         return _response;
                 }
+            }
+            else
+            {
+                query = query.OrderBy(x => x.OrganizationName);
             }
 
             var totalCount = await query.CountAsync();
 
-            var data = await query.OrderBy(x => x.OrganizationName)
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var data = await query.OrderBy(x => x.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -361,8 +819,9 @@ namespace CrmManagementAPI.Services
             if (!data.Any())
             {
                 _response.IsSuccess = false;
-                _response.ActionResponse = "Data not found.";
                 _response.StatusCode = HttpStatusCode.NotFound;
+                _response.ActionResponse = "Data not found.";
+
                 return _response;
             }
 
@@ -375,10 +834,9 @@ namespace CrmManagementAPI.Services
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+                TotalPages = totalPages,
                 Data = data
             };
-
             return _response;
         }
 

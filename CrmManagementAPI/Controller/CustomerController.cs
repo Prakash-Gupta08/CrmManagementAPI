@@ -1,6 +1,7 @@
 ﻿using CrmManagementAPI.CommonResponse;
 using CrmManagementAPI.Interfaces;
 using CrmManagementAPI.Model;
+using CrmManagementAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,13 +91,36 @@ namespace CrmManagementAPI.Controller
             var data = await _context.GetDecisionDropdown();
             return Ok(data);
         }
+     //   [HttpGet("GetAllCustomerList")]
+     //   public async Task<APIResponse> GetAllCustomerList(
+     //string? search = null,
+     //string? filterField = null,
+     //string? filterValue = null,
+     //int pageNumber = 1,
+     //int pageSize = 10)
+     //   {
+     //       return await _context.GetAllCustomerList(
+     //           search,
+     //           filterField,
+     //           filterValue,
+     //           pageNumber,
+     //           pageSize);
+     //   }
+
         [HttpGet("GetAllCustomerList")]
-        public async Task<ActionResult> GetAllCustomerList(string? search = null, string? filterField = null, string? filterValue = null, int pageNumber = 1, int pageSize = 10)
-        {
-            var data = await _context.GetAllCustomerList();
+        public async Task<ActionResult> GetAllCustomerList(
+             string? search,
+             string? filterField,
+             string? filterValue,
+             string? sortField,
+             string? sortOrder = "asc",
+             int pageNumber = 1,
+             int pageSize = 10)
+             {
+            var data = await _context.GetAllCustomerList(search,filterField,filterValue,sortField,sortOrder,pageNumber,pageSize);
             return Ok(data);
         }
-    
+
 
 
     }
