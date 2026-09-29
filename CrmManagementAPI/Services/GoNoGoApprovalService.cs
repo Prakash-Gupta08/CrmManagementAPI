@@ -90,7 +90,7 @@ namespace CrmManagementAPI.Services
                 Decision = dto.Decision,
                 ApproverRemarks = dto.ApproverRemarks,
                 Conditions = dto.Conditions,
-                CreatedAt = dto.CreatedAt,
+                CreatedAt = dto.CreatedAt, 
             };
             _context.go_nogo_approvals.Add(entity);
             await _context.SaveChangesAsync();

@@ -181,16 +181,13 @@ namespace CrmManagementAPI.Services
 
                             return _response;
                         }
-
                         break;
 
                     case "policyname":
-
                         query = query.Where(x => x.PolicyName.ToLower().Contains(filterValue));
                         break;
 
                     case "agingdays":
-
                         if (int.TryParse(filterValue, out int agingDays))
                         {
                             query = query.Where(x => x.AgingDays == agingDays);
@@ -239,7 +236,6 @@ namespace CrmManagementAPI.Services
                         break;
 
                     default:
-
                         _response.IsSuccess = false;
                         _response.StatusCode = HttpStatusCode.BadRequest;
                         _response.ActionResponse = $"Invalid filter field: {filterField}";
@@ -247,17 +243,14 @@ namespace CrmManagementAPI.Services
                         return _response;
                 }
             }
-
             sortField = sortField?.Trim().ToLower();
             sortOrder = sortOrder?.Trim().ToLower();
 
             if (!string.IsNullOrWhiteSpace(sortField))
             {
                 bool descending = sortOrder == "desc";
-
                 switch (sortField)
                 {
-
                     case "id":
                         query = descending ? query.OrderByDescending(x => x.Id) : query.OrderBy(x => x.Id);
                         break;
@@ -330,7 +323,6 @@ namespace CrmManagementAPI.Services
                 TotalPages = totalPages,
                 Data = data
             };
-
             return _response;
         }
 
