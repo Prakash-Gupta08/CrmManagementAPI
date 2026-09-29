@@ -51,5 +51,14 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteEscalationPolicy(id);
             return Ok(data);
         }
+
+
+        [HttpGet("GetAllEscalationPolicyList")]
+        public async Task<ActionResult> GetAllEscalationPolicyList(string? search, string? filterField, string? filterValue,
+        string? sortField, string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+        var data = await _context.GetAllEscalationPolicyList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+             return Ok(data);
+        }
     }
 }

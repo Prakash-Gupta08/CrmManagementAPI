@@ -10,5 +10,8 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateEscalationPolicy(CreateEscalationPolicy dto);
         Task<APIResponse> UpdateEscalationPolicy(EditEscalationPolicy req);
         Task<APIResponse> DeleteEscalationPolicy(int id);
+        Task<APIResponse> GetAllEscalationPolicyList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10);
+
     }
 }
