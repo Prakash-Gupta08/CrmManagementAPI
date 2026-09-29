@@ -313,7 +313,6 @@ namespace CrmManagementAPI.Services
                     (x.Notes != null && x.Notes.ToLower().Contains(search))
                 );
             }
-
             if (!string.IsNullOrWhiteSpace(filterField) && !string.IsNullOrWhiteSpace(filterValue))
             {
                 filterField = filterField.Trim().ToLower();
@@ -330,166 +329,69 @@ namespace CrmManagementAPI.Services
                         {
                             _response.IsSuccess = false;
                             _response.StatusCode = HttpStatusCode.BadRequest;
-                            _response.ActionResponse =
-                                "Invalid ID value.";
+                            _response.ActionResponse = "Invalid ID value.";
 
                             return _response;
                         }
                         break;
 
                     case "organizationname":
-
-                        query = query.Where(x =>
-                            x.OrganizationName.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x =>x.OrganizationName.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Ministry Parent
                     case "ministryparent":
-
-                        query = query.Where(x =>
-                            x.MinistryParent != null &&
-                            x.MinistryParent.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.MinistryParent != null && x.MinistryParent.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Category
                     case "category":
-
-                        query = query.Where(x =>
-                            x.Category != null &&
-                            x.Category.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.Category != null && x.Category.ToLower().Contains(filterValue));
                         break;
 
-
-                    // State
                     case "state":
-
-                        query = query.Where(x =>
-                            x.State != null &&
-                            x.State.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x =>x.State != null && x.State.ToLower().Contains(filterValue));
                         break;
 
-
-                    // District / City
                     case "districtcity":
-
-                        query = query.Where(x =>
-                            x.DistrictCity != null &&
-                            x.DistrictCity.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.DistrictCity != null && x.DistrictCity.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Office Address
                     case "officeaddress":
-
-                        query = query.Where(x =>
-                            x.OfficeAddress != null &&
-                            x.OfficeAddress.ToLower()
-                                .Contains(filterValue));
+                        query = query.Where(x => x.OfficeAddress != null && x.OfficeAddress.ToLower().Contains(filterValue));
 
                         break;
 
-
-                    // Website
                     case "website":
-
-                        query = query.Where(x =>
-                            x.Website != null &&
-                            x.Website.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.Website != null && x.Website.ToLower().Contains(filterValue));
                         break;
 
-
-                    // GeM Seller ID
                     case "gemsellerid":
-
-                        query = query.Where(x =>
-                            x.GemSellerId != null &&
-                            x.GemSellerId.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.GemSellerId != null &&x.GemSellerId.ToLower().Contains(filterValue));
                         break;
 
-
-                    // GSTIN
                     case "gstin":
-
-                        query = query.Where(x =>
-                            x.Gstin != null &&
-                            x.Gstin.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x =>x.Gstin != null && x.Gstin.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Account Owner
                     case "accountowner":
-
-                        query = query.Where(x =>
-                            x.AccountOwner != null &&
-                            x.AccountOwner.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.AccountOwner != null && x.AccountOwner.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Key Contact Name
                     case "keycontactname":
-
-                        query = query.Where(x =>
-                            x.KeyContactName != null &&
-                            x.KeyContactName.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.KeyContactName != null && x.KeyContactName.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Key Contact Designation
                     case "keycontactdesignation":
-
-                        query = query.Where(x =>
-                            x.KeyContactDesignation != null &&
-                            x.KeyContactDesignation.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x =>x.KeyContactDesignation != null && x.KeyContactDesignation.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Key Contact Email
                     case "keycontactemail":
-
-                        query = query.Where(x =>
-                            x.KeyContactEmail != null &&
-                            x.KeyContactEmail.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x => x.KeyContactEmail != null && x.KeyContactEmail.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Key Contact Mobile
                     case "keycontactmobile":
-
-                        query = query.Where(x =>
-                            x.KeyContactMobile != null &&
-                            x.KeyContactMobile.ToLower()
-                                .Contains(filterValue));
-
+                        query = query.Where(x =>x.KeyContactMobile != null &&x.KeyContactMobile.ToLower().Contains(filterValue));
                         break;
 
-
-                    // Notes
                     case "notes":
                         query = query.Where(x => x.Notes != null && x.Notes.ToLower().Contains(filterValue));
                         break;
