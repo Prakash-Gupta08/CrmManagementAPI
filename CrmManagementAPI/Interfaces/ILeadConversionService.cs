@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateLeadConversion(CreateLeadConversion dto);
         Task<APIResponse> UpdateLeadConversion(EditLeadConversion req);
         Task<APIResponse> DeleteLeadConversion(int id);
+        Task<APIResponse> GetAllLeadConversionsList(string? search,string? filterField,string? filterValue,string? sortField,string? sortOrder = "asc",
+        int pageNumber = 1,int pageSize = 10);
     }
 }

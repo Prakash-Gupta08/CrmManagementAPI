@@ -51,5 +51,19 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteLead(id);
             return Ok(data);
         }
+
+        [HttpGet("GetAllLeadList")]
+        public async Task<ActionResult> GetAllLeadList(
+    string? search,
+    string? filterField,
+    string? filterValue,
+    string? sortField,
+    string? sortOrder = "asc",
+    int pageNumber = 1,
+    int pageSize = 10)
+    {
+    var data = await _context.GetAllLeadList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+    return Ok(data);
+    }
     }
 }

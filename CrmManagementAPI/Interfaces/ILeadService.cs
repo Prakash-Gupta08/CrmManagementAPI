@@ -10,5 +10,13 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateLead(CreateLead dto);
         Task<APIResponse> UpdateLead(EditLead req);
         Task<APIResponse> DeleteLead(int id);
+        Task<APIResponse> GetAllLeadList(
+   string? search,
+   string? filterField,
+   string? filterValue,
+   string? sortField,
+   string? sortOrder = "asc",
+   int pageNumber = 1,
+   int pageSize = 10);
     }
 }
