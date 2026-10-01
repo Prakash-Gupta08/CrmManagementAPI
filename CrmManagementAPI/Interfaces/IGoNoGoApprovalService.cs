@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateGoNoGoApproval(CreateGoNoGoApproval dto);
         Task<APIResponse> UpdateGoNoGoApproval(EditGoNoGoApproval req);
         Task<APIResponse> DeleteGoNoGoApproval(int id);
+        Task<APIResponse> GetAllGoNoGoApprovalsList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10);
     }
 }
