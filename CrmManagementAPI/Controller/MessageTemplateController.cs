@@ -51,5 +51,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteMessageTemplate(id);
             return Ok(data);
         }
+
+        [HttpGet("GetAllMessageTemplatesList")]
+        public async Task<ActionResult> GetAllMessageTemplatesList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+    {
+            var data = await _context.GetAllMessageTemplatesList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+            return Ok(data); 
+    }
     }
 }

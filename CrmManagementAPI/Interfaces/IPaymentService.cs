@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreatePayment(CreatePayment dto);
         Task<APIResponse> UpdatePayment(EditPayment req);
         Task<APIResponse> DeletePayment(int id);
+        Task<APIResponse> GetAllPaymentsList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10);
     }
 }

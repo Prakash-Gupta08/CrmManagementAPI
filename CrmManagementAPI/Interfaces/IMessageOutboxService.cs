@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateMessageOutbox(CreateMessageOutbox dto);
         Task<APIResponse> UpdateMessageOutbox(EditMessageOutbox req);
         Task<APIResponse> DeleteMessageOutbox(int id);
+        Task<APIResponse> GetAllMessageOutboxList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10);
     }
 }

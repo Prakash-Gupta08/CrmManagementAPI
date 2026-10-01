@@ -151,5 +151,334 @@ namespace CrmManagementAPI.Services
             _response.ActionResponse = "Payment deleted successfully.";
             return _response;
         }
+        public async Task<APIResponse> GetAllPaymentsList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10)
+        {
+            var query = _context.payments.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim().ToLower();
+
+                query = query.Where(x =>
+                    x.Id.ToString().Contains(search) ||x.InvoiceId.ToString().Contains(search) ||
+                    x.AmountReceivedInr.ToString().Contains(search) ||x.TdsDeductedInr.ToString().Contains(search) ||
+                    x.OtherDeductionInr.ToString().Contains(search) ||(x.PaymentMode != null && x.PaymentMode.ToLower().Contains(search)) ||
+                    (x.ReferenceNumber != null && x.ReferenceNumber.ToLower().Contains(search)) ||
+                    (x.BankName != null && x.BankName.ToLower().Contains(search)) ||
+                    (x.Notes != null && x.Notes.ToLower().Contains(search)) ||
+                    (x.RecordedById != null && x.RecordedById.ToString().Contains(search))
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(filterField) &&
+                !string.IsNullOrWhiteSpace(filterValue))
+            {
+                filterField = filterField.Trim().ToLower();
+                filterValue = filterValue.Trim().ToLower();
+
+                switch (filterField)
+                {
+                    case "id":
+                        if (int.TryParse(filterValue, out int id))
+                        {
+                            query = query.Where(x => x.Id == id);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid ID value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "invoiceid":
+                        if (int.TryParse(filterValue, out int invoiceId))
+                        {
+                            query = query.Where(x =>
+                                x.InvoiceId == invoiceId);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid InvoiceId value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "paymentdate":
+                        if (DateOnly.TryParse(filterValue, out DateOnly paymentDate))
+                        {
+                            query = query.Where(x =>
+                                x.PaymentDate == paymentDate);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid PaymentDate value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "amountreceivedinr":
+                        if (decimal.TryParse(filterValue, out decimal amountReceivedInr))
+                        {
+                            query = query.Where(x =>
+                                x.AmountReceivedInr == amountReceivedInr);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid AmountReceivedInr value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "tdsdeductedinr":
+                        if (decimal.TryParse(filterValue, out decimal tdsDeductedInr))
+                        {
+                            query = query.Where(x =>
+                                x.TdsDeductedInr == tdsDeductedInr);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid TdsDeductedInr value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "otherdeductioninr":
+                        if (decimal.TryParse(filterValue, out decimal otherDeductionInr))
+                        {
+                            query = query.Where(x =>
+                                x.OtherDeductionInr == otherDeductionInr);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid OtherDeductionInr value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "paymentmode":
+                        query = query.Where(x =>
+                            x.PaymentMode != null &&
+                            x.PaymentMode.ToLower().Contains(filterValue));
+                        break;
+
+                    case "referencenumber":
+                        query = query.Where(x =>
+                            x.ReferenceNumber != null &&
+                            x.ReferenceNumber.ToLower().Contains(filterValue));
+                        break;
+
+                    case "bankname":
+                        query = query.Where(x =>
+                            x.BankName != null &&
+                            x.BankName.ToLower().Contains(filterValue));
+                        break;
+
+                    case "notes":
+                        query = query.Where(x =>
+                            x.Notes != null &&
+                            x.Notes.ToLower().Contains(filterValue));
+                        break;
+
+                    case "recordedbyid":
+                        if (int.TryParse(filterValue, out int recordedById))
+                        {
+                            query = query.Where(x =>
+                                x.RecordedById == recordedById);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid RecordedById value.";
+                            return _response;
+                        }
+                        break;
+
+                    case "createdat":
+                        if (DateTime.TryParse(filterValue, out DateTime createdAt))
+                        {
+                            query = query.Where(x =>
+                                x.CreatedAt.Date == createdAt.Date);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode =
+                                System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse =
+                                "Invalid CreatedAt value.";
+                            return _response;
+                        }
+                        break;
+
+                    default:
+                        _response.IsSuccess = false;
+                        _response.StatusCode =
+                            System.Net.HttpStatusCode.BadRequest;
+                        _response.ActionResponse =
+                            $"Invalid filter field: {filterField}";
+                        return _response;
+                }
+            }
+
+            sortField = sortField?.Trim().ToLower();
+            sortOrder = sortOrder?.Trim().ToLower();
+
+            if (!string.IsNullOrWhiteSpace(sortField))
+            {
+                bool descending = sortOrder == "desc";
+
+                switch (sortField)
+                {
+                    case "id":
+                        query = descending
+                            ? query.OrderByDescending(x => x.Id)
+                            : query.OrderBy(x => x.Id);
+                        break;
+
+                    case "invoiceid":
+                        query = descending
+                            ? query.OrderByDescending(x => x.InvoiceId)
+                            : query.OrderBy(x => x.InvoiceId);
+                        break;
+
+                    case "paymentdate":
+                        query = descending
+                            ? query.OrderByDescending(x => x.PaymentDate)
+                            : query.OrderBy(x => x.PaymentDate);
+                        break;
+
+                    case "amountreceivedinr":
+                        query = descending
+                            ? query.OrderByDescending(x => x.AmountReceivedInr)
+                            : query.OrderBy(x => x.AmountReceivedInr);
+                        break;
+
+                    case "tdsdeductedinr":
+                        query = descending
+                            ? query.OrderByDescending(x => x.TdsDeductedInr)
+                            : query.OrderBy(x => x.TdsDeductedInr);
+                        break;
+
+                    case "otherdeductioninr":
+                        query = descending
+                            ? query.OrderByDescending(x => x.OtherDeductionInr)
+                            : query.OrderBy(x => x.OtherDeductionInr);
+                        break;
+
+                    case "paymentmode":
+                        query = descending
+                            ? query.OrderByDescending(x => x.PaymentMode)
+                            : query.OrderBy(x => x.PaymentMode);
+                        break;
+
+                    case "referencenumber":
+                        query = descending
+                            ? query.OrderByDescending(x => x.ReferenceNumber)
+                            : query.OrderBy(x => x.ReferenceNumber);
+                        break;
+
+                    case "bankname":
+                        query = descending
+                            ? query.OrderByDescending(x => x.BankName)
+                            : query.OrderBy(x => x.BankName);
+                        break;
+
+                    case "notes":
+                        query = descending
+                            ? query.OrderByDescending(x => x.Notes)
+                            : query.OrderBy(x => x.Notes);
+                        break;
+
+                    case "recordedbyid":
+                        query = descending
+                            ? query.OrderByDescending(x => x.RecordedById)
+                            : query.OrderBy(x => x.RecordedById);
+                        break;
+
+                    case "createdat":
+                        query = descending
+                            ? query.OrderByDescending(x => x.CreatedAt)
+                            : query.OrderBy(x => x.CreatedAt);
+                        break;
+
+                    default:
+                        _response.IsSuccess = false;
+                        _response.StatusCode =
+                            System.Net.HttpStatusCode.BadRequest;
+                        _response.ActionResponse =
+                            $"Invalid sort field: {sortField}";
+                        return _response;
+                }
+            }
+            else
+            {
+                query = query.OrderBy(x => x.Id);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var totalPages = (int)Math.Ceiling(
+                (double)totalCount / pageSize);
+
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            if (!data.Any())
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode =
+                    System.Net.HttpStatusCode.NotFound;
+                _response.ActionResponse =
+                    "Data not found.";
+                return _response;
+            }
+
+            _response.IsSuccess = true;
+            _response.StatusCode =
+                System.Net.HttpStatusCode.OK;
+            _response.ActionResponse =
+                "Data found successfully.";
+
+            _response.Result = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Data = data
+            };
+
+            return _response;
+        }
     }
 }

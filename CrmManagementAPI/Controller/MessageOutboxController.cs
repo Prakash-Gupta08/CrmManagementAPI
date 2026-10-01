@@ -51,5 +51,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteMessageOutbox(id);
             return Ok(data);
         }
+
+        [HttpGet("GetAllMessageOutboxList")]
+        public async Task<ActionResult> GetAllMessageOutboxList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _context.GetAllMessageOutboxList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+            return Ok(data);
+        }
     }
 }

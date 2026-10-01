@@ -211,34 +211,20 @@ namespace CrmManagementAPI.Services
             return _response;
         }
 
-        public async Task<APIResponse> GetAllLeadList(
-    string? search,
-    string? filterField,
-    string? filterValue,
-    string? sortField,
-    string? sortOrder = "asc",
-    int pageNumber = 1,
-    int pageSize = 10)
+        public async Task<APIResponse> GetAllLeadList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
         {
             var query = _context.leads.AsQueryable();
-
-            // =========================
-            // Search
-            // =========================
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 search = search.Trim().ToLower();
 
                 query = query.Where(x =>
-                    x.Id.ToString().Contains(search) ||
-                    x.LeadCode.ToLower().Contains(search) ||
-                    x.OrganizationName.ToLower().Contains(search) ||
-                    x.MinistryParent!.ToLower().Contains(search) ||
-                    x.Category!.ToLower().Contains(search) ||
-                    x.State!.ToLower().Contains(search) ||
-                    x.DistrictCity!.ToLower().Contains(search) ||
-                    x.ContactName!.ToLower().Contains(search) ||
+                    x.Id.ToString().Contains(search) || x.LeadCode.ToLower().Contains(search) ||
+                    x.OrganizationName.ToLower().Contains(search) || x.MinistryParent!.ToLower().Contains(search) ||
+                    x.Category!.ToLower().Contains(search) || x.State!.ToLower().Contains(search) ||
+                    x.DistrictCity!.ToLower().Contains(search) || x.ContactName!.ToLower().Contains(search) ||
                     x.ContactDesignation!.ToLower().Contains(search) ||
                     x.ContactEmail!.ToLower().Contains(search) ||
                     x.ContactMobile!.ToLower().Contains(search) ||
@@ -259,10 +245,6 @@ namespace CrmManagementAPI.Services
                     x.NextAction!.ToLower().Contains(search)
                 );
             }
-
-            // =========================
-            // Filter
-            // =========================
 
             if (!string.IsNullOrWhiteSpace(filterField) &&
                 !string.IsNullOrWhiteSpace(filterValue))
@@ -722,10 +704,6 @@ namespace CrmManagementAPI.Services
                 }
             }
 
-            // =========================
-            // Sorting
-            // =========================
-
             sortField = sortField?.Trim().ToLower();
             sortOrder = sortOrder?.Trim().ToLower();
 
@@ -1046,10 +1024,6 @@ namespace CrmManagementAPI.Services
                 query = query.OrderBy(x => x.Id);
             }
 
-            // =========================
-            // Pagination
-            // =========================
-
             var totalCount = await query.CountAsync();
 
             var totalPages = (int)Math.Ceiling(
@@ -1060,10 +1034,6 @@ namespace CrmManagementAPI.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            // =========================
-            // No Data
-            // =========================
-
             if (!data.Any())
             {
                 _response.IsSuccess = false;
@@ -1072,10 +1042,6 @@ namespace CrmManagementAPI.Services
 
                 return _response;
             }
-
-            // =========================
-            // Success Response
-            // =========================
 
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;

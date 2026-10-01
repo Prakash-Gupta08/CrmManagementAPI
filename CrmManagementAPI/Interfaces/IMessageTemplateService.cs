@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateMessageTemplate(CreateMessageTemplate dto);
         Task<APIResponse> UpdateMessageTemplate(EditMessageTemplate req);
         Task<APIResponse> DeleteMessageTemplate(int id);
+        Task<APIResponse> GetAllMessageTemplatesList(string? search,string? filterField,string? filterValue, string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10);
     }
 }
