@@ -11,5 +11,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> UpdateInvoice(EditInvoice req);
         Task<APIResponse> DeleteInvoice(int id);
         Task<APIResponse> GetInvoiceStatusDropdown();
+        Task<APIResponse> GetAllInvoiceList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10);
     }
 }

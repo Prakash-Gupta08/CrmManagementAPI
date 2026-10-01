@@ -58,5 +58,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.GetLeadActivityDropdown();
             return Ok(data); 
         }
+
+        [HttpGet("GetAllLeadActivitiesList")]
+        public async Task<ActionResult> GetAllLeadActivitiesList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _context.GetAllLeadActivitiesList(search, filterField, filterValue, sortField, sortOrder, pageNumber);
+            return Ok(data);
+        }
     }
 }

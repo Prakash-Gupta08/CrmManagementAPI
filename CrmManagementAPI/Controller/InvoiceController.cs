@@ -58,5 +58,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.GetInvoiceStatusDropdown();
             return Ok(data);
         }
+
+        [HttpGet("GetAllInvoiceList")]
+        public async Task<ActionResult> GetAllInvoiceList(string? search, string? filterField, string? filterValue, string? sortField, string? sortOrder = "asc",
+        int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _context.GetAllInvoiceList(search, filterField, filterValue, sortField, sortOrder);
+            return Ok(data); 
+        }
     }
 }
