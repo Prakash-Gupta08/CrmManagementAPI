@@ -69,5 +69,12 @@ namespace CrmManagementAPI.Controller
             return Ok();
 
         }
+        [HttpGet("GetAllUsersList")]
+        public async Task<ActionResult> GetAllUsersList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+        var data = await _context.GetAllUsersList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+        return Ok(data);
+        }
     }
 }

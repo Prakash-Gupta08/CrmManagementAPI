@@ -51,5 +51,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteTender(id);
             return Ok(data);
         }
+
+        [HttpGet("GetAllTendersList")]
+        public async Task<ActionResult> GetAllTendersList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+        var data = await _context.GetAllTendersList(search, filterField, filterValue, sortField, sortOrder, pageNumber);
+        return Ok(data);
+        }
     }
 }

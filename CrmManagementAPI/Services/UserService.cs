@@ -215,6 +215,290 @@ namespace CrmManagementAPI.Services
             return _response;
         }
 
+        public async Task<APIResponse> GetAllUsersList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+            var query = _context.users
+                .Where(x => x.Active == true);
+
+            // =========================
+            // Search
+            // =========================
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+
+                query = query.Where(x =>
+                    x.Id.ToString().Contains(search) ||
+                    x.EmployeeId.ToLower().Contains(search) ||
+                    x.FullName.ToLower().Contains(search) ||
+                    (x.Designation != null && x.Designation.ToLower().Contains(search)) ||
+                    (x.Department != null && x.Department.ToLower().Contains(search)) ||
+                    (x.ReportingManager != null && x.ReportingManager.ToLower().Contains(search)) ||
+                    (x.Region != null && x.Region.ToLower().Contains(search)) ||
+                    (x.GovernmentVertical != null && x.GovernmentVertical.ToLower().Contains(search)) ||
+                    x.Email.ToLower().Contains(search) ||
+                    (x.Mobile != null && x.Mobile.ToLower().Contains(search)) ||
+                    x.Role.ToLower().Contains(search) ||
+                    x.Active.ToString().ToLower().Contains(search)
+                );
+            }
+
+            // =========================
+            // Filter
+            // =========================
+            if (!string.IsNullOrEmpty(filterField) &&
+                !string.IsNullOrEmpty(filterValue))
+            {
+                switch (filterField.ToLower())
+                {
+                    case "id":
+                        if (int.TryParse(filterValue, out int id))
+                        {
+                            query = query.Where(x => x.Id == id);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid Id.";
+                            return _response;
+                        }
+                        break;
+
+                    case "employeeid":
+                        query = query.Where(x =>
+                            x.EmployeeId.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "fullname":
+                        query = query.Where(x =>
+                            x.FullName.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "designation":
+                        query = query.Where(x =>
+                            x.Designation != null &&
+                            x.Designation.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "department":
+                        query = query.Where(x =>
+                            x.Department != null &&
+                            x.Department.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "reportingmanager":
+                        query = query.Where(x =>
+                            x.ReportingManager != null &&
+                            x.ReportingManager.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "region":
+                        query = query.Where(x =>
+                            x.Region != null &&
+                            x.Region.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "governmentvertical":
+                        query = query.Where(x =>
+                            x.GovernmentVertical != null &&
+                            x.GovernmentVertical.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "email":
+                        query = query.Where(x =>
+                            x.Email.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "mobile":
+                        query = query.Where(x =>
+                            x.Mobile != null &&
+                            x.Mobile.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "role":
+                        query = query.Where(x =>
+                            x.Role.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "active":
+                        if (bool.TryParse(filterValue, out bool active))
+                        {
+                            query = query.Where(x => x.Active == active);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid Active value. Use true or false.";
+                            return _response;
+                        }
+                        break;
+
+                    case "createdat":
+                        if (DateTime.TryParse(filterValue, out DateTime createdAt))
+                        {
+                            query = query.Where(x =>
+                                x.CreatedAt.Date == createdAt.Date);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid CreatedAt date.";
+                            return _response;
+                        }
+                        break;
+
+                    default:
+                        _response.IsSuccess = false;
+                        _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        _response.ActionResponse = "Invalid filter field.";
+                        return _response;
+                }
+            }
+
+            // =========================
+            // Sorting
+            // =========================
+            bool isDescending = sortOrder?.ToLower() == "desc";
+
+            if (!string.IsNullOrEmpty(sortField))
+            {
+                switch (sortField.ToLower())
+                {
+                    case "id":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Id)
+                            : query.OrderBy(x => x.Id);
+                        break;
+
+                    case "employeeid":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.EmployeeId)
+                            : query.OrderBy(x => x.EmployeeId);
+                        break;
+
+                    case "fullname":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.FullName)
+                            : query.OrderBy(x => x.FullName);
+                        break;
+
+                    case "designation":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Designation)
+                            : query.OrderBy(x => x.Designation);
+                        break;
+
+                    case "department":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Department)
+                            : query.OrderBy(x => x.Department);
+                        break;
+
+                    case "reportingmanager":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.ReportingManager)
+                            : query.OrderBy(x => x.ReportingManager);
+                        break;
+
+                    case "region":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Region)
+                            : query.OrderBy(x => x.Region);
+                        break;
+
+                    case "governmentvertical":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.GovernmentVertical)
+                            : query.OrderBy(x => x.GovernmentVertical);
+                        break;
+
+                    case "email":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Email)
+                            : query.OrderBy(x => x.Email);
+                        break;
+
+                    case "mobile":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Mobile)
+                            : query.OrderBy(x => x.Mobile);
+                        break;
+
+                    case "role":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Role)
+                            : query.OrderBy(x => x.Role);
+                        break;
+
+                    case "active":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Active)
+                            : query.OrderBy(x => x.Active);
+                        break;
+
+                    case "createdat":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.CreatedAt)
+                            : query.OrderBy(x => x.CreatedAt);
+                        break;
+
+                    default:
+                        query = query.OrderBy(x => x.Id);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.OrderBy(x => x.Id);
+            }
+
+            // =========================
+            // Pagination
+            // =========================
+            var totalCount = await query.CountAsync();
+
+            var totalPages = (int)Math.Ceiling(
+                (double)totalCount / pageSize);
+
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // =========================
+            // No Data Found
+            // =========================
+            if (data == null || data.Count == 0)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                _response.ActionResponse = "Data not found.";
+                return _response;
+            }
+
+            // =========================
+            // Success Response
+            // =========================
+            _response.IsSuccess = true;
+            _response.StatusCode = System.Net.HttpStatusCode.OK;
+            _response.ActionResponse = "Data found successfully.";
+
+            _response.Result = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Data = data
+            };
+
+            return _response;
+        }
+
 
     }
     
