@@ -36,6 +36,7 @@ builder.Services.AddScoped<IEscalationPolicyService, EscalationPolicyService>();
 builder.Services.AddScoped<ILeadActivityService, LeadActivityService>();
 builder.Services.AddScoped<ILeadConversionService, LeadConversionService>(); 
 builder.Services.AddScoped<IOverviewService, OverviewService>();
+builder.Services.AddScoped<ITenderCommandCentreService, TenderCommandCentreService>();
 
 var app = builder.Build();
 
