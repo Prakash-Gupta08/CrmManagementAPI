@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateTenderActivity(CreateTenderActivity dto);
         Task<APIResponse> UpdateTenderActivity(EditTenderActivity req);
         Task<APIResponse> DeleteTenderActivity(int id);
+        Task<APIResponse> GetAllTenderActivitiesList(string? search, string? filterField, string? filterValue, string? sortField, string? sortOrder = "asc",
+        int pageNumber = 1, int pageSize = 10);
     }
 }
