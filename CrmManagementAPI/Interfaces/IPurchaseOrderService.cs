@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreatePurchaseOrder(CreatePurchaseOrder dto);
         Task<APIResponse> UpdatePurchaseOrder(EditPurchaseOrder req);
         Task<APIResponse> DeletePurchaseOrder(int id);
+        Task<APIResponse> GetAllPurchaseOrdersList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10);
     }
 }

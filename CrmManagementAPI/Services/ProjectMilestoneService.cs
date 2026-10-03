@@ -156,44 +156,25 @@ namespace CrmManagementAPI.Services
             return _response;
         }
 
-        public async Task<APIResponse> GetAllProjectMilestonesList(
-    string? search,
-    string? filterField,
-    string? filterValue,
-    string? sortField,
-    string? sortOrder = "asc",
-    int pageNumber = 1,
-    int pageSize = 10)
+        public async Task<APIResponse> GetAllProjectMilestonesList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
         {
             var query = _context.project_milestones.AsQueryable();
 
-            // =========================
-            // SEARCH
-            // =========================
             if (!string.IsNullOrWhiteSpace(search))
             {
                 search = search.Trim().ToLower();
 
                 query = query.Where(x =>
-                    x.Id.ToString().Contains(search) ||
-                    x.PoId.ToString().Contains(search) ||
-                    x.MilestoneName.ToLower().Contains(search) ||
-                    (x.MilestoneType != null &&
-                     x.MilestoneType.ToLower().Contains(search)) ||
-                    x.BillingPct.ToString().Contains(search) ||
-                    x.BillingAmountInr.ToString().Contains(search) ||
-                    x.Status.ToLower().Contains(search) ||
-                    (x.CompletionNotes != null &&
-                     x.CompletionNotes.ToLower().Contains(search)) ||
+                    x.Id.ToString().Contains(search) ||x.PoId.ToString().Contains(search) ||
+                    x.MilestoneName.ToLower().Contains(search) ||(x.MilestoneType != null && x.MilestoneType.ToLower().Contains(search)) ||
+                    x.BillingPct.ToString().Contains(search) ||x.BillingAmountInr.ToString().Contains(search) ||
+                    x.Status.ToLower().Contains(search) ||(x.CompletionNotes != null && x.CompletionNotes.ToLower().Contains(search)) ||
                     x.SortOrder.ToString().Contains(search)
                 );
             }
 
-            // =========================
-            // FILTER
-            // =========================
-            if (!string.IsNullOrWhiteSpace(filterField) &&
-                !string.IsNullOrWhiteSpace(filterValue))
+            if (!string.IsNullOrWhiteSpace(filterField) && !string.IsNullOrWhiteSpace(filterValue))
             {
                 filterField = filterField.Trim().ToLower();
                 filterValue = filterValue.Trim().ToLower();
@@ -273,10 +254,8 @@ namespace CrmManagementAPI.Services
                         else
                         {
                             _response.IsSuccess = false;
-                            _response.StatusCode =
-                                System.Net.HttpStatusCode.BadRequest;
-                            _response.ActionResponse =
-                                "Invalid ActualDate value.";
+                            _response.StatusCode = HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid ActualDate value.";
                             return _response;
                         }
                         break;
@@ -410,9 +389,6 @@ namespace CrmManagementAPI.Services
                 }
             }
 
-            // =========================
-            // SORT
-            // =========================
             sortField = sortField?.Trim().ToLower();
             sortOrder = sortOrder?.Trim().ToLower();
 
@@ -520,9 +496,6 @@ namespace CrmManagementAPI.Services
                 query = query.OrderBy(x => x.Id);
             }
 
-            // =========================
-            // PAGINATION
-            // =========================
             var totalCount = await query.CountAsync();
 
             var totalPages = (int)Math.Ceiling(
@@ -533,9 +506,6 @@ namespace CrmManagementAPI.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            // =========================
-            // NO DATA
-            // =========================
             if (!data.Any())
             {
                 _response.IsSuccess = false;
@@ -546,9 +516,6 @@ namespace CrmManagementAPI.Services
                 return _response;
             }
 
-            // =========================
-            // SUCCESS RESPONSE
-            // =========================
             _response.IsSuccess = true;
             _response.StatusCode =
                 System.Net.HttpStatusCode.OK;

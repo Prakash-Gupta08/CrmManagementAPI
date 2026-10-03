@@ -53,14 +53,8 @@ namespace CrmManagementAPI.Controller
         }
 
         [HttpGet("GetAllProjectMilestonesList")]
-        public async Task<ActionResult> GetAllProjectMilestonesList(
-    string? search,
-    string? filterField,
-    string? filterValue,
-    string? sortField,
-    string? sortOrder = "asc",
-    int pageNumber = 1,
-    int pageSize = 10)
+        public async Task<ActionResult> GetAllProjectMilestonesList(string? search,string? filterField,string? filterValue,string? sortField,
+        string? sortOrder = "asc",int pageNumber = 1,int pageSize = 10)
     {
             var data = await _context.GetAllProjectMilestonesList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
             return Ok(data);

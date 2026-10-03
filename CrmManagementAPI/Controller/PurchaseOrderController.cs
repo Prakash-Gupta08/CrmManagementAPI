@@ -51,5 +51,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeletePurchaseOrder(id);
             return Ok(data);
         }
-    }
+
+        [HttpGet("GetAllPurchaseOrdersList")]
+        public async Task<ActionResult> GetAllPurchaseOrdersList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+        var data = await _context.GetAllPurchaseOrdersList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+        return Ok(data);
+        }
+        }
 }
