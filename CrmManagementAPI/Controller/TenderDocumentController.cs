@@ -51,5 +51,13 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteTenderDocument(id);
             return Ok(data);
         }
+         
+        [HttpGet("GetAllTenderDocumentsList")]
+        public async Task<ActionResult> GetAllTenderDocumentsList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+        var data = await _context.GetAllTenderDocumentsList(search, filterField, filterValue, sortField, sortOrder, pageNumber, pageSize);
+            return Ok(data);
+        }
     }
 }

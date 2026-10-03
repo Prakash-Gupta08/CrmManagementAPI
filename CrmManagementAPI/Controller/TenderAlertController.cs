@@ -51,5 +51,12 @@ namespace CrmManagementAPI.Controller
             var data = await _context.DeleteTenderAlert(id);
             return Ok(data);
         }
+        [HttpGet("GetAllTenderAlertsList")]
+        public async Task<ActionResult> GetAllTenderAlertsList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _context.GetAllTenderAlertsList(search,filterField, filterValue,sortField, sortOrder, pageNumber, pageSize);
+            return Ok(data);
+        }
     }
 }

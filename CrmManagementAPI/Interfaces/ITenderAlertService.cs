@@ -10,5 +10,7 @@ namespace CrmManagementAPI.Interfaces
         Task<APIResponse> CreateTenderAlert(CreateTenderAlert dto);
         Task<APIResponse> UpdateTenderAlert(EditTenderAlert req);
         Task<APIResponse> DeleteTenderAlert(int id);
+        Task<APIResponse> GetAllTenderAlertsList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10);
     }
 }

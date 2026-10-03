@@ -141,5 +141,216 @@ namespace CrmManagementAPI.Services
             _response.ActionResponse = "TenderAlert deleted successfully.";
             return _response;
         }
+
+        public async Task<APIResponse> GetAllTenderAlertsList(string? search, string? filterField, string? filterValue, string? sortField,
+        string? sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
+        {
+            var query = _context.tender_alerts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+
+                query = query.Where(x =>
+                    x.Id.ToString().Contains(search) ||
+                    x.TenderId.ToString().Contains(search) ||
+                    x.AlertType.ToLower().Contains(search) ||
+                    x.Status.ToLower().Contains(search) ||
+                    (x.Notes != null && x.Notes.ToLower().Contains(search))
+                );
+            }
+
+            // =========================
+            // Filter
+            // =========================
+            if (!string.IsNullOrEmpty(filterField) &&
+                !string.IsNullOrEmpty(filterValue))
+            {
+                switch (filterField.ToLower())
+                {
+                    case "id":
+                        if (int.TryParse(filterValue, out int id))
+                        {
+                            query = query.Where(x => x.Id == id);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid Id.";
+                            return _response;
+                        }
+                        break;
+
+                    case "tenderid":
+                        if (int.TryParse(filterValue, out int tenderId))
+                        {
+                            query = query.Where(x => x.TenderId == tenderId);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid TenderId.";
+                            return _response;
+                        }
+                        break;
+
+                    case "alerttype":
+                        query = query.Where(x =>
+                            x.AlertType.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "alertdate":
+                        if (DateOnly.TryParse(filterValue, out DateOnly alertDate))
+                        {
+                            query = query.Where(x => x.AlertDate == alertDate);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid AlertDate. Use yyyy-MM-dd format.";
+                            return _response;
+                        }
+                        break;
+
+                    case "status":
+                        query = query.Where(x =>
+                            x.Status.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "notes":
+                        query = query.Where(x =>
+                            x.Notes != null &&
+                            x.Notes.ToLower().Contains(filterValue.ToLower()));
+                        break;
+
+                    case "createdat":
+                        if (DateTime.TryParse(filterValue, out DateTime createdAt))
+                        {
+                            query = query.Where(x =>
+                                x.CreatedAt.Date == createdAt.Date);
+                        }
+                        else
+                        {
+                            _response.IsSuccess = false;
+                            _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            _response.ActionResponse = "Invalid CreatedAt date.";
+                            return _response;
+                        }
+                        break;
+
+                    default:
+                        _response.IsSuccess = false;
+                        _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        _response.ActionResponse = "Invalid filter field.";
+                        return _response;
+                }
+            }
+
+            // =========================
+            // Sorting
+            // =========================
+            bool isDescending = sortOrder?.ToLower() == "desc";
+
+            if (!string.IsNullOrEmpty(sortField))
+            {
+                switch (sortField.ToLower())
+                {
+                    case "id":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Id)
+                            : query.OrderBy(x => x.Id);
+                        break;
+
+                    case "tenderid":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.TenderId)
+                            : query.OrderBy(x => x.TenderId);
+                        break;
+
+                    case "alerttype":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.AlertType)
+                            : query.OrderBy(x => x.AlertType);
+                        break;
+
+                    case "alertdate":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.AlertDate)
+                            : query.OrderBy(x => x.AlertDate);
+                        break;
+
+                    case "status":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Status)
+                            : query.OrderBy(x => x.Status);
+                        break;
+
+                    case "notes":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.Notes)
+                            : query.OrderBy(x => x.Notes);
+                        break;
+
+                    case "createdat":
+                        query = isDescending
+                            ? query.OrderByDescending(x => x.CreatedAt)
+                            : query.OrderBy(x => x.CreatedAt);
+                        break;
+
+                    default:
+                        query = query.OrderBy(x => x.Id);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.OrderBy(x => x.Id);
+            }
+
+            // =========================
+            // Pagination
+            // =========================
+            var totalCount = await query.CountAsync();
+
+            var totalPages = (int)Math.Ceiling(
+                (double)totalCount / pageSize);
+
+            var data = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // =========================
+            // No Data Found
+            // =========================
+            if (data == null || data.Count == 0)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                _response.ActionResponse = "Data not found.";
+                return _response;
+            }
+
+            // =========================
+            // Success Response
+            // =========================
+            _response.IsSuccess = true;
+            _response.StatusCode = System.Net.HttpStatusCode.OK;
+            _response.ActionResponse = "Data found successfully.";
+
+            _response.Result = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Data = data
+            };
+
+            return _response;
+        }
     }
 }
