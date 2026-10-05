@@ -1,7 +1,8 @@
 using CrmManagementAPI.AppDbContext;
-using Microsoft.EntityFrameworkCore;
+using CrmManagementAPI.Common;
 using CrmManagementAPI.Interfaces;
 using CrmManagementAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,13 @@ builder.Services.AddScoped<ILeadActivityService, LeadActivityService>();
 builder.Services.AddScoped<ILeadConversionService, LeadConversionService>(); 
 builder.Services.AddScoped<IOverviewService, OverviewService>();
 builder.Services.AddScoped<ITenderCommandCentreService, TenderCommandCentreService>();
+
+// ---- Communications Console (NEW) ----
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<AutomationSettings>(builder.Configuration.GetSection("Automation"));
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<ICommunicationsConsoleService, CommunicationsConsoleService>();
+builder.Services.AddHostedService<CommunicationAutomationWorker>();   // daily automation jobs
 
 var app = builder.Build();
 

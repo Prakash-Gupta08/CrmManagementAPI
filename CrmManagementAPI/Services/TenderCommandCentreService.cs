@@ -136,13 +136,12 @@ namespace CrmManagementAPI.Services
         }
 
 
-        //Upcoming bid deadlines(tenders JOIN customers LEFT JOIN users)
+        //Upcoming bid deadlines(tenders JOIN customers LEFT JOIN users)3
         private async Task<List<TccDeadlineItem>> BuildUpcomingDeadlines(int top)
         {
             var startOfToday = DateTime.Today;
 
-            var rows = await (
-                from t in _context.tenders
+            var rows = await (from t in _context.tenders
                 join c in _context.customers on t.CustomerId equals c.Id
                 join u in _context.users on t.BidOwnerId equals (int?)u.Id into ownerJoin
                 from owner in ownerJoin.DefaultIfEmpty()
